@@ -5,19 +5,21 @@ import axios from "axios";
 import PokeCard from "./components/PokeCard";
 
 function App() {
-  const offset = 0;
-  const url = `https://pokeapi.co/api/v2/pokemon/?limit=1000&offset=${offset}`;
-
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(20);
   const [pokemons, setPokemons] = useState([]);
 
   useEffect(() => {
-    fetchPokeData();
+    fetchPokeData(true);
   }, []);
 
-  async function fetchPokeData() {
+  async function fetchPokeData(isFirstFetch) {
     try {
+      const offsetValue = isFirstFetch ? 0 : offset + limit;
+      const url = `https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offsetValue}`;
       const res = await axios.get(url);
-      setPokemons(res.data.results);
+      setPokemons([...pokemons, ...res.data.results]);
+      setOffset(offsetValue);
     } catch (e) {
       console.error(e);
     }
@@ -48,6 +50,14 @@ function App() {
           )}
         </div>
       </section>
+      <div className="text-center">
+        <button
+          onClick={() => fetchPokeData(false)}
+          className="bg-slate-800 px-6 py-2 my-4 text-base rounded-lg font-bold text-white"
+        >
+          Load More
+        </button>
+      </div>
     </article>
   );
 }
