@@ -5,7 +5,7 @@ const Type = ({ type, dmgVal }) => {
 
   return (
     <div
-      className={`h-[1.5rem] py-1 px-3 rounded-2xl ${bg} font-bold text-zinc-800 text-[0.6rem] leading-[0.8rem] capitalize flex gap-1 justify-center items-center`}
+      className={`h-[1.5rem] py-1 px-3 rounded-lg ${bg} font-bold text-zinc-800 text-[0.6rem] leading-[0.8rem] capitalize flex gap-1 justify-center items-center`}
     >
       <span>{type}</span>
       {dmgVal && (
