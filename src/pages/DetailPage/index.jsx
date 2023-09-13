@@ -63,6 +63,20 @@ const DetailPage = () => {
     { name: "Speed", baseStat: statSPD.base_stat },
   ];
 
+  const filterFormatDesc = (flavorText) => {
+    const enDesc = flavorText
+      ?.filter((text) => text.language.name === "en")
+      .map((text) => text.flavor_text.replace(/\r|\n|\f/g, " "));
+    return enDesc;
+  };
+
+  async function formatPokeDiscription(id) {
+    const url = `https://pokeapi.co/api/v2/pokemon-species/${id}`;
+    const { data: pokeSpec } = await axios.get(url);
+    const discriptions = filterFormatDesc(pokeSpec.flavor_text_entries);
+    return discriptions[Math.floor(Math.random() * discriptions.length)];
+  }
+
   async function getNextPrevPoke(id) {
     const urlPoke = `${baseUrl}?limit=1&offset=${id - 1}`;
     await axios.get(urlPoke);
@@ -103,8 +117,8 @@ const DetailPage = () => {
           stats: formatPokeStats(stats),
           DmgRel,
           sprites: formatPokeSprites(sprites),
+          description: await formatPokeDiscription(id),
         };
-
         setPokemon(formattedPokeData);
         setIsLoading(false);
       }
@@ -210,8 +224,7 @@ const DetailPage = () => {
               ))}
             </div>
           </div>
-
-          <h2 className={`text-base font-semibold ${text}`}>
+          <div className={`text-base font-semibold ${text}`}>
             <table>
               <tbody>
                 {pokemon.stats.map((stat) => (
@@ -224,8 +237,15 @@ const DetailPage = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+          <h2 className={`text-base font-semibold ${text} uppercase`}>
+            Description
           </h2>
-          <div className="w-full"></div>
+          <p
+            className={`text-md leading-4 font-sans text-zinc-200 max-w-[30rem] text-center`}
+          >
+            {pokemon.description}
+          </p>
           <div className="flex my-8 flex-wrap justify-center">
             {pokemon.sprites.map((url, index) => {
               return <img key={index} src={url} alt="sprite" />;
