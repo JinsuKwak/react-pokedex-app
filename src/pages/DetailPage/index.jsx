@@ -15,7 +15,7 @@ import DamageModal from "../../components/DamageModal";
 
 const DetailPage = () => {
   const [pokemon, setPokemon] = useState();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const params = useParams();
