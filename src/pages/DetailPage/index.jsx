@@ -11,10 +11,12 @@ import { Vector } from "../../assets/Vector";
 import Type from "../../components/Type";
 import BaseStat from "../../components/BaseStat";
 import DamageRelations from "../../components/DamageRelations";
+import DamageModal from "../../components/DamageModal";
 
 const DetailPage = () => {
   const [pokemon, setPokemon] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const params = useParams();
   const pokeID = params.id;
@@ -27,6 +29,17 @@ const DetailPage = () => {
     setIsLoading(true);
     fetchPokeData(pokeID);
   }, [pokeID]);
+
+  const formatPokeSprites = (sprites) => {
+    const newSprites = { ...sprites };
+    Object.keys(newSprites).forEach((key) => {
+      if (typeof newSprites[key] !== "string") {
+        delete newSprites[key];
+      }
+    });
+
+    return Object.values(newSprites);
+  };
 
   const formatPokeAbilities = (abilities) => {
     return abilities
@@ -67,7 +80,8 @@ const DetailPage = () => {
     try {
       const { data: pokeData } = await axios.get(url);
       if (pokeData) {
-        const { name, id, types, weight, height, stats, abilities } = pokeData;
+        const { name, id, types, weight, height, stats, abilities, sprites } =
+          pokeData;
         const nextPrevPoke = await getNextPrevPoke(id);
 
         const DmgRel = await Promise.all(
@@ -88,6 +102,7 @@ const DetailPage = () => {
           abilities: formatPokeAbilities(abilities),
           stats: formatPokeStats(stats),
           DmgRel,
+          sprites: formatPokeSprites(sprites),
         };
 
         setPokemon(formattedPokeData);
@@ -211,15 +226,17 @@ const DetailPage = () => {
             </table>
           </h2>
           <div className="w-full"></div>
-          {pokemon.DmgRel && (
-            <div className="w-10/12">
-              <h2 className={`text-base font-semibold text-center ${text}`}>
-                <DamageRelations damages={pokemon.DmgRel} />
-              </h2>
-            </div>
-          )}
+          <div className="flex my-8 flex-wrap justify-center">
+            {pokemon.sprites.map((url, index) => {
+              return <img key={index} src={url} alt="sprite" />;
+            })}
+          </div>
         </section>
       </div>
+
+      {isModalOpen && (
+        <DamageModal setIsModalOpen={setIsModalOpen} damages={pokemon.DmgRel} />
+      )}
     </article>
   );
 };
