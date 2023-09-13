@@ -21,7 +21,7 @@ const BaseStat = ({ valueStat, nameStat, type }) => {
         <div
           className={`flex items-start h-2 min-w-[10rem] overflow-hidden rounded bg-gray-600`}
         >
-          <div ref={ref} className={`h-3 ${bg} duration-300`}></div>
+          <div ref={ref} className={`h-3 ${bg}`}></div>
         </div>
       </td>
       <td className="px-2 sm:px-5">255</td>

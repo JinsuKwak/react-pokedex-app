@@ -10,6 +10,7 @@ import { Balance } from "../../assets/Balance";
 import { Vector } from "../../assets/Vector";
 import Type from "../../components/Type";
 import BaseStat from "../../components/BaseStat";
+import DamageRelations from "../../components/DamageRelations";
 
 const DetailPage = () => {
   const [pokemon, setPokemon] = useState();
@@ -23,8 +24,9 @@ const DetailPage = () => {
   const text = `text-${pokemon?.types?.[0]}`;
 
   useEffect(() => {
-    fetchPokeData();
-  }, []);
+    setIsLoading(true);
+    fetchPokeData(pokeID);
+  }, [pokeID]);
 
   const formatPokeAbilities = (abilities) => {
     return abilities
@@ -117,7 +119,7 @@ const DetailPage = () => {
         {pokemon.prev && (
           <Link
             className="absolute top-[40%] -translate-y-1/2 z-50 left-1"
-            to={`pokemon/${pokemon.prev}`}
+            to={`/pokemon/${pokemon.prev}`}
           >
             <LessThan className="w-5 h-8 p-1" />
           </Link>
@@ -126,7 +128,7 @@ const DetailPage = () => {
         {pokemon.next && (
           <Link
             className="absolute top-[40%] -translate-y-1/2 z-50 right-1"
-            to={`pokemon/${pokemon.next}`}
+            to={`/pokemon/${pokemon.next}`}
           >
             <GreaterThan className="w-5 h-8 p-1" />
           </Link>
@@ -165,7 +167,7 @@ const DetailPage = () => {
               <Type key={type} type={type} />
             ))}
           </div>
-          <h2 className={`text-base font-semibold ${text}`}>Info</h2>
+          <h2 className={`text-base font-semibold ${text}`}>INFO</h2>
           <div className="flex w-full items-center justify-between max-w-[400px] text-center">
             <div className="w-full">
               <h4 className="text-[0.5rem] text-zinc-100">Weight</h4>
@@ -175,14 +177,14 @@ const DetailPage = () => {
               </div>
             </div>
             <div className="w-full">
-              <h4 className="text-[0.5rem] text-zinc-100">Weight</h4>
+              <h4 className="text-[0.5rem] text-zinc-100">Height</h4>
               <div className="text-sm flex mt-1 gap-2 justify-center text-zinc-200">
                 <Vector />
                 {pokemon.height}m
               </div>
             </div>
             <div className="w-full">
-              <h4 className="text-[0.5rem] text-zinc-100">Weight</h4>
+              <h4 className="text-[0.5rem] text-zinc-100">Abilities</h4>
               {pokemon.abilities.map((ability) => (
                 <div
                   key={ability}
@@ -208,13 +210,12 @@ const DetailPage = () => {
               </tbody>
             </table>
           </h2>
-          <div className="w-full">STAT</div>
+          <div className="w-full"></div>
           {pokemon.DmgRel && (
             <div className="w-10/12">
               <h2 className={`text-base font-semibold text-center ${text}`}>
-                Type Effectiveness
+                <DamageRelations damages={pokemon.DmgRel} />
               </h2>
-              Damage
             </div>
           )}
         </section>
