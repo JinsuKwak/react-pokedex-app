@@ -9,6 +9,7 @@ import { ArrowLeft } from "../../assets/ArrowLeft";
 import { Balance } from "../../assets/Balance";
 import { Vector } from "../../assets/Vector";
 import Type from "../../components/Type";
+import BaseStat from "../../components/BaseStat";
 
 const DetailPage = () => {
   const [pokemon, setPokemon] = useState();
@@ -193,7 +194,20 @@ const DetailPage = () => {
             </div>
           </div>
 
-          <h2 className={`text-base font-semibold ${text}`}>Base Stat</h2>
+          <h2 className={`text-base font-semibold ${text}`}>
+            <table>
+              <tbody>
+                {pokemon.stats.map((stat) => (
+                  <BaseStat
+                    key={stat.name}
+                    valueStat={stat.baseStat}
+                    nameStat={stat.name}
+                    type={pokemon.types[0]}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </h2>
           <div className="w-full">STAT</div>
           {pokemon.DmgRel && (
             <div className="w-10/12">
