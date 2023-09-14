@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import useOnClickOutside from "../hooks/useOnClickOutside.jsx";
+import useOnClickOutside from "../hooks/useOnClickOut";
 import DamageRelations from "./DamageRelations";
 
 const DamageModal = ({ setIsModalOpen, damages }) => {
