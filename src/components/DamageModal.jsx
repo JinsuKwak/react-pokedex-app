@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import useOnclickOutside from "../hooks/useOnClickOutside";
+import useOnClickOutside from "../hooks/useOnClickOutside";
 import DamageRelations from "./DamageRelations";
 
 const DamageModal = ({ setIsModalOpen, damages }) => {
@@ -9,7 +9,7 @@ const DamageModal = ({ setIsModalOpen, damages }) => {
     setIsModalOpen(false);
   };
 
-  useOnclickOutside(ref, closeModal);
+  useOnClickOutside(ref, closeModal);
 
   return (
     <div className="flex items-center justify-center z-40 fixed left-0 bottom-0 w-full h-full bg-gray-800">
