@@ -143,7 +143,7 @@ const DetailPage = () => {
   return (
     <article className="flex items-center gap-1 flex-col w-full">
       <div
-        className={`${bg} w-auto h-full flex flex-col z-0 items-center just relative overflow-hidden`}
+        className={`${bg} w-full h-100 flex flex-col z-0 items-center just relative overflow-hidden`}
       >
         {pokemon.prev && (
           <Link
@@ -190,7 +190,7 @@ const DetailPage = () => {
             />
           </div>
         </section>
-        <section className="w-full min-h-[65%] h-full bg-gray-800 z-10 pt-14 flex flex-col items-center gap-3 px-5 pb-4">
+        <section className="w-full min-h-screen h-full bg-gray-800 z-10 pt-14 flex flex-col items-center gap-3 px-5 pb-4">
           <div className="flex items-center justify-center gap-4">
             {pokemon.types.map((type) => (
               <Type key={type} type={type} />
